@@ -21,6 +21,7 @@ logging:
     com.mycompany.myapp: DEBUG
 
 spring:
+  refresh-token-validity-in-seconds: 90
   devtools:
     restart:
       enabled: true
@@ -40,19 +41,31 @@ spring:
       auto-commit: false
   jpa:
     database-platform: tech.jhipster.domain.util.FixedPostgreSQL10Dialect
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
   liquibase:
     # Remove 'faker' if you do not want the sample data to be loaded automatically
     contexts: dev, faker
   mail:
-    host: localhost
-    port: 25
-    username:
-    password:
+    host: smtp.gmail.com
+    username: poghosyan.gurgen.99@gmail.com
+    password: lbozsrmjiffnkweb
+    port: 587
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+    protocol: smtp
+    test-connection: false
   messages:
     cache-duration: PT1S # 1 second, see the ISO 8601 standard
   thymeleaf:
     cache: false
-  refresh-token-validity-in-seconds: 500
+
 server:
   port: 8080
 

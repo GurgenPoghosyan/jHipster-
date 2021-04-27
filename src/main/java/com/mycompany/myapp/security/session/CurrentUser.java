@@ -1,8 +1,6 @@
 package com.mycompany.myapp.security.session;
 
 import com.mycompany.myapp.domain.User;
-import lombok.Getter;
-import lombok.Setter;
 
 public class CurrentUser {
 

@@ -1,9 +1,10 @@
 package com.mycompany.myapp.domain;
 
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.Date;
 import javax.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
 
 @Table(name = "refresh_token")
 @Entity
@@ -22,7 +23,7 @@ public class RefreshToken {
     private String token;
 
     @Column(nullable = false)
-    private Instant expiryDate;
+    private Timestamp expiryDate;
 
     public Long getId() {
         return id;
@@ -48,11 +49,11 @@ public class RefreshToken {
         this.token = token;
     }
 
-    public Instant getExpiryDate() {
+    public Timestamp getExpiryDate() {
         return expiryDate;
     }
 
-    public void setExpiryDate(Instant expiryDate) {
+    public void setExpiryDate(Timestamp expiryDate) {
         this.expiryDate = expiryDate;
     }
 }

@@ -7,11 +7,12 @@ import com.mycompany.myapp.repository.RefreshTokenRepository;
 import com.mycompany.myapp.repository.UserRepository;
 import com.mycompany.myapp.security.RefreshTokenException;
 import com.mycompany.myapp.security.session.SessionUser;
+import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.Date;
 import java.util.Optional;
 import java.util.UUID;
 import javax.transaction.Transactional;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -42,9 +43,9 @@ public class RefreshTokenService {
         RefreshToken refreshToken = new RefreshToken();
 
         refreshToken.setUser(userRepository.findById(userId).get());
-        refreshToken.setExpiryDate(Instant.now().plusMillis(Long.parseLong(refreshTokenDurationMs)));
+        refreshToken.setExpiryDate(new Timestamp(new Date().getTime() + Long.parseLong(refreshTokenDurationMs) * 1000));
         refreshToken.setToken(UUID.randomUUID().toString());
-
+        System.err.print(new Timestamp(new Date().getTime() + Long.parseLong(refreshTokenDurationMs) * 1000));
         refreshToken = refreshTokenRepository.save(refreshToken);
         return refreshToken;
     }
@@ -55,11 +56,11 @@ public class RefreshTokenService {
     }
 
     public RefreshToken verifyExpiration(RefreshToken token) {
-        if (token.getExpiryDate().compareTo(Instant.now()) < 0) {
+        System.err.print(token.getExpiryDate());
+        if (token.getExpiryDate().before(new Date(System.currentTimeMillis()))) {
             refreshTokenRepository.delete(token);
             throw new RefreshTokenException("Refresh token was expired. Please make a new signin request");
         }
-
         return token;
     }
     //    @Transactional
